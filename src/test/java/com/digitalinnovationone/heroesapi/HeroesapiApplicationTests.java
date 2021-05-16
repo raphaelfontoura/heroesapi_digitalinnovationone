@@ -1,6 +1,7 @@
 package com.digitalinnovationone.heroesapi;
 
 import com.digitalinnovationone.heroesapi.document.Heroes;
+import com.digitalinnovationone.heroesapi.service.HeroesService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ class HeroesapiApplicationTests {
 
 	@Autowired
 	WebTestClient webTestClient;
+
+	@Autowired
+	HeroesService service;
 
 	@Test
 	public void ShouldReturnStatusOkWhenGetOneHeroById() {
@@ -55,8 +59,14 @@ class HeroesapiApplicationTests {
 
 	@Test
 	public void ShouldReturnAcceptedWhenDeleteHeroById() {
+		Heroes hero = new Heroes();
+		hero.setName("heroi junit");
+		hero.setUniverse("desconhecido");
+		hero.setId("15");
+		hero.setFilms(1);
+		service.save(hero);
 
-		webTestClient.delete().uri(HEROES_ENDPOINT_LOCAL.concat("/{1}"),"5")
+		webTestClient.delete().uri(HEROES_ENDPOINT_LOCAL.concat("/{1}"),"15")
 				.accept(MediaType.APPLICATION_JSON)
 				.exchange()
 				.expectStatus().isAccepted()
